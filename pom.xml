@@ -16,8 +16,6 @@
     <modules>
         <module>dtmcli-common</module>
         <module>dtmcli-core</module>
-        <module>dtmcli-springcloud</module>
-        <module>dtmcli-java</module>
     </modules>
 
     <properties>
