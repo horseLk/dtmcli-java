@@ -24,6 +24,8 @@
 
 package pub.dtm.client.enums;
 
+import pub.dtm.client.constant.ParamFieldConstants;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -62,6 +64,34 @@ public enum TransTypeEnum {
 
     public String getValue() {
         return this.value;
+    }
+
+    public String getTryOperator() {
+        switch (this) {
+            case TCC:
+                return ParamFieldConstants.TRY;
+            case SAGA:
+                return ParamFieldConstants.ACTION;
+            case XA:
+            case MSG:
+            default:
+                return null;
+
+        }
+    }
+
+    public String getCancelOperator() {
+        switch (this) {
+            case TCC:
+                return ParamFieldConstants.CANCEL;
+            case SAGA:
+                return ParamFieldConstants.COMPENSATE;
+            case XA:
+            case MSG:
+            default:
+                return null;
+
+        }
     }
 
     private static final Map<String, TransTypeEnum> EXIST = new HashMap<>();

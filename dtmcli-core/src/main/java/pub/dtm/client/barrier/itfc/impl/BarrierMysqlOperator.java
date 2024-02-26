@@ -1,7 +1,9 @@
 package pub.dtm.client.barrier.itfc.impl;
 
+import org.apache.commons.lang3.StringUtils;
 import pub.dtm.client.barrier.itfc.BarrierDBOperator;
 import pub.dtm.client.constant.ParamFieldConstants;
+import pub.dtm.client.enums.TransTypeEnum;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -25,13 +27,33 @@ public class BarrierMysqlOperator implements BarrierDBOperator {
         if (Objects.isNull(connection)) {
             return false;
         }
+        TransTypeEnum transTypeEnum = TransTypeEnum.parseString(transType);
+        if (Objects.isNull(transTypeEnum)) {
+            return false;
+        }
+        return insertBarrier(transTypeEnum, gid, branchId, op, barrierId);
+    }
+
+    @Override
+    public boolean insertBarrier(TransTypeEnum transType, String gid, String branchId, String op, int barrierId) throws Exception {
+        if (Objects.isNull(connection)) {
+            return false;
+        }
+        if (Objects.isNull(transType)) {
+            return false;
+        }
+        String tryOperator = transType.getTryOperator();
+        String cancelOperator = transType.getCancelOperator();
+        if (StringUtils.isEmpty(tryOperator) || StringUtils.isEmpty(cancelOperator)){
+            return false;
+        }
         Connection conn = (Connection)this.connection;
         conn.setAutoCommit(false);
         PreparedStatement preparedStatement = null;
         try {
             String sql = "insert ignore into barrier(trans_type, gid, branch_id, op, barrier_id, reason) values(?,?,?,?,?,?)";
             preparedStatement = conn.prepareStatement(sql);
-            preparedStatement.setString(1, transType);
+            preparedStatement.setString(1, transType.getValue());
             preparedStatement.setString(2, gid);
             preparedStatement.setString(3, branchId);
             preparedStatement.setString(4, op);
@@ -41,9 +63,9 @@ public class BarrierMysqlOperator implements BarrierDBOperator {
             if (preparedStatement.executeUpdate() == 0) {
                 return false;
             }
-            if (ParamFieldConstants.CANCEL.equals(op)) {
+            if (cancelOperator.equals(op)) {
                 int opIndex = 4;
-                preparedStatement.setString(opIndex, ParamFieldConstants.TRY);
+                preparedStatement.setString(opIndex, tryOperator);
                 if (preparedStatement.executeUpdate() > 0) {
                     return false;
                 }

@@ -1,5 +1,7 @@
 package pub.dtm.client.barrier.itfc;
 
+import pub.dtm.client.enums.TransTypeEnum;
+
 /**
  * BarrierDBOperator is a interface to insert barrier, you can implements the interface according to your db.
  *
@@ -16,7 +18,19 @@ public interface BarrierDBOperator {
      * @param barrierId barrier ID
      * @return Insert Success
      */
+    @Deprecated
     boolean insertBarrier(String transType, String gid, String branchId, String op, int barrierId) throws Exception;
+
+    /**
+     *
+     * @param transType Trans type
+     * @param gid gid
+     * @param branchId branch ID
+     * @param op operator
+     * @param barrierId barrier ID
+     * @return Insert Success
+     */
+    boolean insertBarrier(TransTypeEnum transType, String gid, String branchId, String op, int barrierId) throws Exception;
 
     /**
      * commit transaction
