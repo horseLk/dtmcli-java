@@ -32,7 +32,7 @@ jobs:
           gpg-private-key: ${{ secrets.MAVEN_GPG_PRIVATE_KEY }}
       - name: Publish to Apache Maven Central
         # 执行maven deploy命令
-        run: clean install deploy -P release
+        run: mvn clean install deploy -P release
         #        run: mvn clean deploy  -DaltDeploymentRepository=ossrh::default::https://s01.oss.sonatype.org/content/repositories/snapshots/
         env:
           # Nexus用户名,如果觉得不想暴露也可以配置到secrets中
