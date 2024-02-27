@@ -190,7 +190,6 @@
                             <docencoding>UTF-8</docencoding>
                             <additionalparam>-Xdoclint:none</additionalparam>
                             <javadocExecutable>/opt/hostedtoolcache/jdk/8.0.402/x64\bin\javadoc</javadocExecutable>
-                            <!-- TODO 临时解决不规范的javadoc生成报错,后面要规范化后把这行去掉 -->
                         </configuration>
                         <executions>
                             <execution>
