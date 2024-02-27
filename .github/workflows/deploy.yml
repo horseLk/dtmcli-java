@@ -23,13 +23,13 @@ jobs:
           java-version: 1.8
           server-id: releases
           # Nexus用户名环境变量
-          server-username: MAVEN_USERNAME
+          server-username: horseLk
           # Nexus密码环境变量
           server-password: MAVEN_CENTRAL_TOKEN
           # gpg短密码环境变量
           gpg-passphrase: MAVEN_GPG_PASSPHRASE
           # gpg私钥
-          gpg-private-key: ${{ secrets.MAVEN_GPG_PRIVATE_KEY }}
+          gpg-private-key: ${{ secrets.MAVEN_GPG_PRIVATE_SECRET }}
       - name: Publish to Apache Maven Central
         # 执行maven deploy命令
         run: mvn clean install deploy -P release
